@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,14 +6,19 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "./context/AuthContext";
+import { useRouter } from "expo-router";
 
 export default function LogIn() {
-  const navigation = useNavigation();
+  const router = useRouter();
+  const { signIn } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignIn = () => {
-   navigation.navigate("index");
+    signIn({ email, password });
+    // No need to navigate, your app will show the chat screen automatically
   };
 
   return (
@@ -27,11 +32,15 @@ export default function LogIn() {
           placeholder="Email"
           style={styles.input}
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Password"
           style={styles.input}
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
 
@@ -60,7 +69,7 @@ export default function LogIn() {
           Don't have an account?{" "}
           <Text
             style={styles.signUpLink}
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => router.push("/SignUp")}
           >
             Sign Up
           </Text>

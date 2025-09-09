@@ -1,0 +1,25 @@
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";       // Storage (optional)
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAyZaXEwVNObiuACHAISSbt7-e3OH_ek_M",
+  authDomain: "chatapp-f2fc3.firebaseapp.com",
+  projectId: "chatapp-f2fc3",
+  storageBucket: "chatapp-f2fc3.firebasestorage.app",
+  messagingSenderId: "54044690204",
+  appId: "1:54044690204:web:4eab2f84aa08ef0654dcd9",
+  measurementId: "G-E6YLTZ7WXY"
+};
+
+
+// Initialize Firebase App
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// export
+export { auth, db, storage };

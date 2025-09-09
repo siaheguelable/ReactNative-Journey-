@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Navigation() {
@@ -12,6 +12,7 @@ export default function Navigation() {
   };
 
   const handleLogout = () => {
+    // Logic to handle logout can be added here
     navigation.navigate("LogIn");
   };
 
@@ -51,11 +52,11 @@ export default function Navigation() {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     elevation: 4,
     marginBottom: 10,
     marginTop: 40,
@@ -66,15 +67,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   icon: {
     marginHorizontal: 10,
   },
   profileButton: {
     padding: 8,
-    backgroundColor: '#e0f0ff',
+    backgroundColor: "#e0f0ff",
     borderRadius: 50,
     marginLeft: 10,
   },

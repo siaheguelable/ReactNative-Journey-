@@ -6,13 +6,19 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function SignUp() {
-  const navigation = useNavigation();
+import { auth, db, storage } from "../firebaseConfig"; // Import your firebase config
 
-  const handleSignUp = () => {
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+await createUserWithEmailAndPassword(auth, email, password);
+
+export default function SignUp() {
+  const router = useRouter();
+
+  const handleSignUp = async () => {
     alert("Sign Up button pressed!");
   };
 
@@ -59,10 +65,7 @@ export default function SignUp() {
       <View style={styles.loginContainer}>
         <Text style={styles.loginText}>
           Already have an account?{" "}
-          <Text
-            style={styles.loginLink}
-            onPress={() => navigation.navigate("LogIn")}
-          >
+          <Text style={styles.loginLink} onPress={() => router.push("/LogIn")}>
             Log In
           </Text>
         </Text>
