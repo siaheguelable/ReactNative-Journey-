@@ -10,3 +10,5 @@ export default function HomeScreen() {
 
   return <View style={{ flex: 1 }}>{user ? <ChatScreen /> : <LogIn />}</View>;
 }
+
+// Conditionally render based on authentication status
