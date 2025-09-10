@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,13 +13,15 @@ import { auth, db, storage } from "../firebaseConfig"; // Import your firebase c
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
-await createUserWithEmailAndPassword(auth, email, password);
-
 export default function SignUp() {
   const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignUp = async () => {
-    alert("Sign Up button pressed!");
+    await createUserWithEmailAndPassword(auth, email, password);
+    // ...other logic
   };
 
   return (
@@ -29,16 +31,25 @@ export default function SignUp() {
 
       {/* Input Fields */}
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Username" style={styles.input} />
+        <TextInput
+          placeholder="Username"
+          style={styles.input}
+          value={username}
+          onChangeText={setUsername}
+        />
         <TextInput
           placeholder="Email"
           style={styles.input}
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder="Password"
           style={styles.input}
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
 
