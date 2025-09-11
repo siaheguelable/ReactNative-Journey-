@@ -1,30 +1,41 @@
-import { createContext, useEffect, useState, useContext } from "react";
+import React, { createContext, useEffect, useState, useContext } from "react";
+import { auth } from "../firebaseConfig"; // adjust path as needed
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
 
   useEffect(() => {
-    // Uncomment and use your Firebase logic here
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     setUser(user);
-    //     setIsAuthenticated(true);
-    //   } else {
-    //     setUser(null);
-    //     setIsAuthenticated(false);
-    //   }
-    // });
-    // setTimeout(() => {
-    setIsAuthenticated(false);
-    // }, 3000);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    });
+    return unsubscribe;
   }, []);
 
   const login = async (email, password) => {
-    // await signInWithEmailAndPassword(auth, email, password);
     try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUser(userCredential.user);
+      setIsAuthenticated(true);
     } catch (error) {
       console.log(error);
     }
@@ -33,14 +44,23 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     // await signOut(auth);
     try {
+      await signOut(auth);
+      setUser(null);
+      setIsAuthenticated(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   const signUp = async (email, password, username) => {
-    // await createUserWithEmailAndPassword(auth, email, password);
     try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUser({ ...userCredential.user, displayName: username });
+      setIsAuthenticated(true);
     } catch (error) {
       console.log(error);
     }

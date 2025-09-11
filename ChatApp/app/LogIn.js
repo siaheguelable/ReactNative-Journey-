@@ -7,18 +7,42 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "../context/authContext";
 import { useRouter } from "expo-router";
 
 export default function LogIn() {
   const router = useRouter();
-  const { signIn } = useAuth();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = () => {
-    signIn({ email, password });
-    // No need to navigate, your app will show the chat screen automatically
+  const handleSignIn = async () => {
+    if (!email || !password) {
+      alert("Please enter both email and password");
+      return;
+    }
+    // Simple email format check
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+    try {
+      await login(email, password);
+      // If login is successful, user will be redirected by your layout logic
+    } catch (error) {
+      // Firebase error codes: https://firebase.google.com/docs/reference/js/auth#autherrorcodes
+      if (error.code === "auth/user-not-found") {
+        alert("No account found with this email. Please register.");
+        // Optionally, navigate to SignUp screen:
+        // router.push("/SignUp");
+      } else if (error.code === "auth/wrong-password") {
+        alert("Incorrect password. Please try again.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Invalid email address.");
+      } else {
+        alert("Login failed: " + error.message);
+      }
+    }
   };
 
   return (

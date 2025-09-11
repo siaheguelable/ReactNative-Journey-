@@ -8,20 +8,29 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-
-import { auth, db, storage } from "../firebaseConfig"; // Import your firebase config
-
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../context/authContext"; // <-- Import your context
 
 export default function SignUp() {
   const router = useRouter();
+  const { signUp } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignUp = async () => {
-    await createUserWithEmailAndPassword(auth, email, password);
-    // ...other logic
+    if (!username || !email || !password) {
+      alert("Please fill all the fields");
+      return;
+    }
+    signUp(email, password, username)
+      .then(() => {
+        console.log("Sign Up successful");
+        alert("Sign Up successful! Please log in.");
+        router.push("/LogIn");
+      })
+      .catch((error) => {
+        console.error("Sign Up failed", error);
+      });
   };
 
   return (

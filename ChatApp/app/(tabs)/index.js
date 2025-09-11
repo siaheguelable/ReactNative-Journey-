@@ -3,7 +3,7 @@ import ChatScreen from "./Chat";
 import { View } from "react-native";
 
 import LogIn from "../LogIn";
-import { useAuth } from "../context/AuthContext"; // Import your auth context
+import { useAuth } from "../../context/authContext";
 
 export default function HomeScreen() {
   const { user } = useAuth(); // Get user from context
